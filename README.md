@@ -1,863 +1,511 @@
-<p align="center">
-  <img src="resources/icon.png" width="120" alt="FLOW" />
-</p>
+<div align="center">
 
-<h1 align="center">FLOW</h1>
+# FLOW
 
-<p align="center">
-  A local-first, monochrome expense tracker for Android — logging not just <i>how much</i> you spent, but <i>why</i>.
-</p>
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Android-3DDC84?logo=android&logoColor=white)](#)
+[![Status](https://img.shields.io/badge/status-active%20development-blue)](#project-status)
+[![Built with Capacitor](https://img.shields.io/badge/built%20with-Capacitor-119EFF?logo=capacitor&logoColor=white)](#)
 
-<p align="center">
-  <a href="https://github.com/emiljinx-core/flow-expense-tracker/releases"><img src="https://img.shields.io/github/v/release/emiljinx-core/flow-expense-tracker?include_prereleases&label=version&sort=semver&style=flat-square&color=black" alt="Latest release"></a>
-  &nbsp;
-  <a href="https://github.com/emiljinx-core/flow-expense-tracker/stargazers"><img src="https://img.shields.io/github/stars/emiljinx-core/flow-expense-tracker?style=flat-square&color=black" alt="Stars"></a>
-  &nbsp;
-  <a href="https://github.com/emiljinx-core/flow-expense-tracker/issues"><img src="https://img.shields.io/github/issues/emiljinx-core/flow-expense-tracker?style=flat-square&color=black" alt="Issues"></a>
-  &nbsp;
-  <a href="#-license"><img src="https://img.shields.io/badge/license-none%20yet-lightgrey?style=flat-square" alt="License: none yet"></a>
-</p>
+[![Download FLOW APK](https://img.shields.io/badge/Download-FLOW%20APK-success?style=for-the-badge&logo=android)](YOUR_GITHUB_RELEASE_URL)
 
-<p align="center">
-  <img src="https://img.shields.io/badge/platform-Android-3DDC84?style=flat-square&logo=android&logoColor=white" alt="Android">
-  <img src="https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React">
-  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
-  <img src="https://img.shields.io/badge/Capacitor-119EFF?style=flat-square&logo=capacitor&logoColor=white" alt="Capacitor">
-  <img src="https://img.shields.io/badge/SQLite-local--first-003B57?style=flat-square&logo=sqlite&logoColor=white" alt="SQLite">
-</p>
+</div>
 
-<p align="center">
-  <a href="https://github.com/emiljinx-core/flow-expense-tracker/releases"><img src="https://img.shields.io/badge/Download-FLOW.apk-000000?style=for-the-badge&logo=android&logoColor=white" alt="Download APK" height="40"></a>
-</p>
+<br/>
 
-<p align="center">
-  <i>🎥 Demo video coming soon — will be embedded here.</i>
-</p>
+<div style="display:flex; align-items:center;">
+<img src="resources/icon.png" align="left" width="120" hspace="15" vspace="10">
+
+**FLOW** is a local-first expense tracker for Android built to remove the friction from everyday transaction tracking. Instead of relying on you to remember and manually re-enter every UPI payment or bank transfer, FLOW listens for relevant payment and banking notifications on your device, extracts the transaction details, and presents them to you for review — nothing is added to your ledger without your confirmation.
+
+</div>
+
+<br/>
+
+> ⚠️ FLOW is not currently available on the Google Play Store. Download the latest build from the [Releases](YOUR_GITHUB_RELEASE_URL) page.
 
 ---
 
-## 🖼️ Screenshots
+## Screenshots
 
-<p align="center">
-  <img src="docs/screenshots/home.png" width="19%">
-  <img src="docs/screenshots/add-expense.png" width="19%">
-  <img src="docs/screenshots/detection.png" width="19%">
-  <img src="docs/screenshots/budget.png" width="19%">
-  <img src="docs/screenshots/insights.png" width="19%">
-</p>
+> _Screenshot paths below are placeholders — replace with actual images once available in `docs/screenshots/`._
 
-*(add your five screenshots to `docs/screenshots/` with these filenames, or update the paths above)*
+<div style="display:flex;">
 
----
+<img src="docs/screenshots/home.png" width="19%">
+<img style="margin-left:10px;" src="docs/screenshots/add-expense.png" width="19%">
+<img style="margin-left:10px;" src="docs/screenshots/detection.png" width="19%">
+<img style="margin-left:10px;" src="docs/screenshots/budget.png" width="19%">
+<img style="margin-left:10px;" src="docs/screenshots/insights.png" width="19%">
 
-## Table of Contents
-
-- [Overview](#overview)
-- [Features](#-features)
-- [Core Workflow](#core-workflow)
-- [Automatic Transaction Detection](#automatic-transaction-detection-detail)
-- [Transaction Confirmation](#transaction-confirmation-detail)
-- [Expense and Credit Management](#expense-and-credit-management)
-- [Budget Tracking](#budget-tracking-detail)
-- [Spending Insights](#spending-insights-detail)
-- [History and Categories](#history-and-categories)
-- [Backup and Restore](#backup-and-restore-detail)
-- [Local Data Storage](#local-data-storage)
-- [Privacy](#-privacy)
-- [Tech Stack](#-tech-stack)
-- [Architecture](#architecture)
-- [Project Structure](#project-structure)
-- [Android Notification Flow](#android-notification-flow)
-- [Getting Started](#-getting-started)
-- [Building the Android APK](#building-the-android-apk)
-- [Installing the APK](#installing-the-apk)
-- [Testing](#testing)
-- [Known Limitations](#-known-limitations)
-- [Future Improvements](#-future-improvements)
-- [Contributing](#-contributing)
-- [License](#-license)
-- [Star History](#-star-history)
-- [Project Status](#-project-status)
+</div>
 
 ---
 
-## Overview
+## Why We Built FLOW
 
-FLOW is a local expense ledger with Android transaction detection.
-
-The main detection workflow is:
+Traditional expense tracking puts the entire burden on the user's memory. The typical flow looks like this:
 
 ```
-Payment / Bank Notification
-          |
-          v
-Android Notification Listener
-          |
-          v
-Native Notification Bridge
-          |
-          v
-Pending Transaction Queue
-          |
-          v
-FLOW Transaction Overlay
-          |
-          v
-User Reviews / Edits
-          |
-          v
-Local SQLite Storage
-          |
-          v
-Expenses / Credits / Budgets / Insights
+Payment
+  ↓
+Remember the transaction
+  ↓
+Open expense tracker
+  ↓
+Enter amount
+  ↓
+Enter person / merchant
+  ↓
+Choose category
+  ↓
+Save
 ```
 
-FLOW supports both manual entries and detected transactions. Detected transactions are presented for review before being stored by the React application.
+That's a lot of steps for something that should take seconds — and in practice, most people abandon manual tracking within a few weeks because it simply doesn't scale to daily life.
+
+FLOW starts from a different observation: **your phone already knows a payment happened.** Every UPI transaction, bank transfer, or card payment triggers a notification. So why re-enter what the phone already told you?
+
+```
+Payment
+  ↓
+Bank / payment notification
+  ↓
+FLOW detects the notification
+  ↓
+Transaction information is extracted
+  ↓
+User reviews the transaction
+  ↓
+User confirms
+  ↓
+Transaction is stored locally
+```
+
+Importantly, FLOW is **not** designed to silently log everything it sees. Detected transactions are surfaced for review, and nothing reaches your ledger without your explicit confirmation. The goal is to remove repetitive data entry — not your control over your own financial records.
 
 ---
 
-## ✨ Features
+## What is FLOW?
 
-| | |
-|---|---|
-| 💸 **Expense Tracking** | Add, edit, delete — full control over every entry |
-| 💰 **Credit Tracking** | Log salary & transfers into Account or Cash |
-| 🔔 **Auto-Detection** | Reads bank/payment notifications, no manual entry needed |
-| ✅ **Confirm-Before-Save** | Nothing hits your ledger without your review |
-| 🧭 **Duplicate Detection** | Warns you before you log the same spend twice |
-| 📊 **Budget Tracking** | Monthly limits, carry-forward, overspend alerts |
-| 📈 **Spending Insights** | Top category, month-over-month trends, daily average |
-| 🗄️ **Backup & Restore** | Local JSON export/import with a restore preview |
-| 🧹 **One-Tap Reset** | Wipe the ledger, keep the app |
+FLOW is a local-first Android expense tracker that combines manual entry with automatic transaction detection:
 
-### Expense Tracking
+- Log manual expenses and credits (incoming money) directly.
+- Automatically detect relevant payment/banking notifications on your device.
+- Review, edit, or dismiss detected transactions before they're saved.
+- Organize spending with categories, monthly budgets, and basic insights.
+- Keep all ledger data stored locally on the device.
+- Use the app without creating an account — no login required for core functionality.
 
-- Add expenses manually
-- Edit existing expenses
-- Delete expenses
-- Store amount, receiver, category, description, payment source, timestamp, origin, and source application
+---
 
-### Credit Tracking
-
-FLOW records incoming money such as salary or transfers. Credits can be assigned to:
-
-- Account
-- Cash
-
-The balance is calculated from credits minus expenses.
+## Why FLOW is Different
 
 ### Automatic Transaction Detection
+FLOW can detect and parse relevant Android payment and banking notifications, reducing how often you need to manually type in a transaction.
 
-On Android, FLOW can receive supported transaction notifications and extract information such as:
+### Review Before Save
+Detected transactions land in a review step, not directly in your ledger. Nothing is recorded without confirmation.
 
-- Transaction type
+### Local First
+Your expense data is stored locally on your device rather than requiring a cloud account or remote server.
+
+### Simple Expense Management
+Expenses, credits, categories, budgets, and insights are all managed within a straightforward interface.
+
+### User Control
+FLOW assists with detection and extraction — you make the final call on what gets saved.
+
+---
+
+## Features
+
+| Feature | Description |
+|---|---|
+| **Expense tracking** | Log manual expenses with amount, category, and description. |
+| **Credit tracking** | Record incoming money such as salary or transfers. |
+| **Account & cash balances** | Track balances separately across account-based and cash payments. |
+| **Notification-based detection** | Automatically detect relevant payment/banking notifications. |
+| **Transaction review** | Confirm, edit, or dismiss detected transactions before saving. |
+| **Duplicate detection** | Avoid recording the same transaction twice. |
+| **Categories** | Organize expenses and credits by category. |
+| **Monthly budgets** | Set and track spending limits per month. |
+| **Spending insights** | View basic breakdowns of your spending patterns. |
+| **Expense history** | Browse past transactions. |
+| **Local SQLite persistence** | All ledger data is stored in a local SQLite database. |
+| **Backup & restore** | Export and re-import your data locally. |
+| **Complete data reset** | Wipe all local data and start fresh. |
+
+---
+
+## How FLOW Works
+
+### Manual Expense
+
+```
+Home
+  ↓
+Add Expense
+  ↓
+Enter Amount
+  ↓
+Select Person
+  ↓
+Select Category
+  ↓
+Add Description
+  ↓
+Select Payment Type
+  ↓
+Save
+```
+
+### Detected Transaction
+
+```
+Payment
+  ↓
+Android Notification
+  ↓
+Notification Listener
+  ↓
+Transaction Parsing
+  ↓
+Pending Transaction
+  ↓
+Review Overlay
+  ↓
+Confirm / Edit / Dismiss
+  ↓
+Local Ledger
+```
+
+---
+
+## Automatic Transaction Detection
+
+FLOW uses Android's `NotificationListenerService` to receive relevant notification events from payment and banking apps installed on the device. When a relevant notification arrives, FLOW attempts to extract:
+
+- Transaction type (expense or credit)
 - Amount
-- Counterparty
+- Counterparty, where available
 - Source application
-- Suggested category
-- Suggested description
 - Detection timestamp
 - Original notification text
+- Reference ID, where available
 
-### Transaction Confirmation
+Notification formats vary significantly between banks and payment providers, so parsing is rule-based and cannot guarantee correct extraction for every notification format. When parsing fails or is incomplete, the transaction is still surfaced for manual review and correction.
 
-Detected transactions appear in a confirmation overlay where the user can review or edit:
+> **Planned:** more intelligent on-device transaction understanding. This is a future improvement and is **not** part of the current implementation.
+
+---
+
+## Transaction Confirmation
+
+Every detected transaction goes through a review step before it becomes part of your ledger:
+
+```
+Notification
+  ↓
+Detected transaction
+  ↓
+Review
+  ↓
+Edit if necessary
+  ↓
+Confirm
+  ↓
+Save
+```
+
+This prevents incorrect or incomplete notification parsing from silently turning into a financial record. During review, you can edit fields such as:
 
 - Amount
 - Person / receiver
 - Category
 - Description
-- Payment type / destination
+- Payment type
+- Destination (for credits)
 
-Nothing is saved until the transaction is confirmed.
+---
 
-### Duplicate Detection
+## Expenses, Credits and Balances
 
-The transaction overlay checks for possible duplicates using the transaction amount and a short time window, then warns the user when a similar transaction was recently recorded.
+### Expenses
+Both manually entered and automatically detected outgoing transactions.
 
-### Budget Tracking
+### Credits
+Incoming money such as salary, transfers, or refunds.
 
-FLOW supports:
+### Balance
 
-- Monthly budgets
-- Current-month spending
-- Remaining budget
-- Overspending detection
-- Budget percentage
-- Carry-forward calculations
-- Budget history
+```
+Account Balance = Account Credits − Account Expenses
+Cash Balance    = Cash Credits − Cash Expenses
+Total Balance   = Account Balance + Cash Balance
+```
 
-### Spending Insights
+---
 
-The application calculates:
+## Budgets and Spending Insights
+
+### Budget Calculation
+
+```
+Monthly Budget + Carry Forward = Available Budget
+Available Budget − Current Spending = Remaining Budget
+```
+
+### Insights
 
 - Top spending category
-- Increase/decrease compared with the previous month
+- Comparison with previous month
 - Average daily spending
 
-### Backup and Restore
+---
 
-FLOW supports local JSON backup and restoration of application data, including expenses, credits, categories, budget information, and settings. A restore preview identifies incoming records before they are imported.
+## Privacy and Data
 
-### Data Reset
-
-The Settings section includes a **Clear all data** action. It removes stored ledger data and restores the default categories so the application returns to a clean, new-app state.
+- FLOW follows a **local-first** design — the expense ledger is stored on your device.
+- No account is required for core usage.
+- Notification access is required to enable automatic transaction detection.
+- Granting notification access can expose notification content to the application — only enable this permission if you're comfortable with that trade-off.
+- You control whether a detected transaction is actually saved to your ledger.
+- Backup and restore are handled locally and remain under your control.
 
 ---
 
-## Core Workflow
+## Backup and Restore
 
-**Manual Expense**
-
-```
-Home
-  ↓
-Add expense
-  ↓
-Enter amount
-  ↓
-Select receiver/person
-  ↓
-Select category
-  ↓
-Add description
-  ↓
-Select payment type
-  ↓
-Save
-```
-
-**Manual Credit**
-
-```
-Home
-  ↓
-Add amount
-  ↓
-Enter amount
-  ↓
-Select destination
-  ↓
-Add source/note
-  ↓
-Save
-```
-
-**Detected Transaction**
-
-```
-Payment notification
-        ↓
-Android detection
-        ↓
-Pending transaction
-        ↓
-Transaction overlay
-        ↓
-Review / edit
-        ↓
-Save or dismiss
-```
-
----
-
-## Automatic Transaction Detection (Detail)
-
-Android transaction detection is handled outside the normal React UI layer.
-
-The application uses a native notification listener and communicates detected transactions to the React layer through a Capacitor bridge.
-
-Native monetary values are represented in paise and converted to rupees at the React UI boundary.
-
-Example:
-
-```
-50000 paise
-    ↓
-₹500
-```
-
-Using integer paise in the persistence layer avoids common floating-point precision problems when storing monetary values.
-
----
-
-## Transaction Confirmation (Detail)
-
-For **debit** transactions, the overlay can display:
-
-- Amount
-- Receiver
-- Detection time
-- Possible duplicate warning
-- Category
-- Description
-- Payment type
-
-For **credit** transactions, it can display:
-
-- Amount
-- Detection time
-- Source/note
-- Destination
-
-The detected timestamp is retained when the transaction is saved.
-
----
-
-## Expense and Credit Management
-
-An expense contains fields such as:
-
-```
-Expense
-├── id
-├── amount
-├── person
-├── category
-├── description
-├── source
-├── createdAt
-├── origin
-└── sourceApp
-```
-
-A credit contains:
-
-```
-Credit
-├── id
-├── amount
-├── target
-├── note
-├── createdAt
-├── origin
-└── sourceApp
-```
-
-The `origin` field distinguishes:
-
-- `manual`
-- `detected`
-
-### Balance Calculation
-
-```
-Account Balance
-= Account Credits - Account Expenses
-
-Cash Balance
-= Cash Credits - Cash Expenses
-
-Total Balance
-= Account Balance + Cash Balance
-```
-
----
-
-## Budget Tracking (Detail)
-
-The budget system calculates available money using the monthly budget and carry-forward information.
-
-Conceptually:
-
-```
-Available Budget
-= Monthly Budget + Carry Forward
-
-Remaining
-= Available Budget - Current Month Spending
-```
-
-The UI indicates whether the user is within budget or over budget.
-
----
-
-## Spending Insights (Detail)
-
-FLOW derives basic insights from locally stored expenses.
-
-**Top Category** — The category with the highest spending during the current month.
-
-**Change vs Previous Month** — Category spending is compared with the previous month.
-
-**Average Daily Spend**
-
-```
-Current Month Spending
-----------------------
-Number of Active Days
-```
-
----
-
-## History and Categories
-
-The history section displays recorded expenses and provides access to individual expense details.
-
-The default categories are:
-
-- Food
-- Transport
-- Shopping
-- Education
-- Bills
-
-Users can add custom categories. The **Clear all data** action removes custom ledger data and restores these default categories.
-
----
-
-## Backup and Restore (Detail)
-
-### Backup
-
-The application serializes the current state into JSON. The backup can contain:
+FLOW supports local backup and restore via JSON export/import. A backup can include:
 
 - Expenses
 - Credits
 - Categories
-- Monthly budget
-- Budget history
+- Budget information
 - Settings
 - Schema version
 - Export timestamp
 
-### Restore
-
-Before importing a backup, FLOW creates a restore preview. The preview can identify:
-
-- New expenses
-- Existing expenses
-- New credits
-- New categories
-- Existing categories
-- Budget availability
-
-The restore process avoids blindly importing matching duplicate records.
+Restore includes a preview step so you can review what will be imported before it's applied, rather than blindly merging in matching or duplicate records.
 
 ---
 
-## Local Data Storage
+## Tech Stack
 
-FLOW uses a local-first persistence model.
-
-On Android, ledger data is stored using SQLite through Capacitor Community SQLite.
-
-The database is:
-
-```
-expense_tracker.db
-```
-
-The database contains tables for:
-
-- `expenses`
-- `credits`
-- `categories`
-- `budget_history`
-- `monthly_budget`
-
-Application settings are stored using Capacitor Preferences.
-
-Monetary values are stored as integer paise in SQLite.
-
-Example:
-
-```
-₹500.00 → 50000
-```
-
----
-
-## 🔐 Privacy
-
-FLOW is designed around local storage.
-
-The current application does not use a server-side ledger database or application account for storing the user's expense data.
-
-Notification access is required for automatic transaction detection. Because notification access can expose payment-related notification content to the application, users should grant this permission only when they are comfortable doing so.
-
----
-
-## 🧰 Tech Stack
-
-**Frontend**
+### Frontend
 - React
 - TypeScript
 - Vite
 - TanStack Router
 - Tailwind CSS
 
-**Mobile**
+### Mobile
 - Capacitor
 - Android
 
-**Storage**
+### Native Android
+- Kotlin
+- Android `NotificationListenerService`
+
+### Storage
 - SQLite
 - Capacitor Preferences
 
-**Native Plugins**
-
-The Android build currently uses:
-
-- `@capacitor-community/sqlite`
-- `@capacitor/filesystem`
-- `@capacitor/preferences`
-- `@capacitor/share`
-
-**UI**
-
-The application uses a custom monochrome technical design system with compact controls, technical labels, numerical displays, borders, and minimal visual elements.
+### Capacitor Plugins
+_List only the plugins actually present in `package.json` / `capacitor.config.ts`._
 
 ---
 
 ## Architecture
 
-The application separates UI, state management, and persistence.
+**Application layer:**
 
 ```
 React UI
-   |
-   v
-Store / State Layer
-   |
-   v
-Repository Abstraction
-   |
-   +-----------------------+
-   |                       |
-   v                       v
-SQLiteRepository      WebMockRepository
-   |                       |
-   v                       v
-SQLite DB              Web storage
+  ↓
+State / Store
+  ↓
+Repository Layer
+  ↓
+SQLite Repository
+  ↓
+SQLite Database
 ```
 
-On Android, the repository resolves to the SQLite implementation. In the web environment, the web repository implementation is used. This keeps persistence details separate from the UI.
+**Notification detection layer:**
+
+```
+Android Notification
+  ↓
+Notification Listener
+  ↓
+Transaction Parser
+  ↓
+Pending Queue
+  ↓
+Capacitor Notification Bridge
+  ↓
+React Application
+  ↓
+Transaction Review
+  ↓
+SQLite
+```
+
+The React UI handles presentation and user interaction, the repository layer abstracts data access, and the SQLite database is the single source of truth for local persistence. On the native side, the notification listener captures relevant events, a parser extracts structured data, and a Capacitor bridge passes pending transactions into the React app for review.
 
 ---
 
 ## Project Structure
 
-A simplified project structure is:
-
 ```
 flow/
-├── android/
+├── android/                # Native Android project (Capacitor shell)
 │   └── app/
-│       └── src/
-│           └── main/
-│               └── java/com/nothing/expensetracker/
-│                   ├── AppStateTracker.java
-│                   ├── MainActivity.java
-│                   ├── ExpenseNotificationService.kt
-│                   ├── NotificationBridgePlugin.kt
-│                   ├── TransactionParser.kt
-│                   ├── TransactionOverlayService.kt
-│                   ├── PendingQueue.kt
-│                   └── backup/
-│                       └── BackupWorker.kt
-│
-├── public/
-│
-├── resources/
-│   └── icon.png
-│
 ├── src/
-│   ├── components/
-│   │   ├── AppShell.tsx
-│   │   ├── ExpenseList.tsx
-│   │   ├── ExpenseSheets.tsx
-│   │   └── DetectionOverlay.tsx
-│   │
-│   ├── hooks/
-│   │   ├── use-backup-manager.ts
-│   │   └── use-notification-listener.ts
-│   │
+│   ├── components/         # React UI components
+│   ├── hooks/               # React hooks
 │   ├── lib/
-│   │   ├── store.tsx
-│   │   ├── types.ts
-│   │   ├── format.ts
-│   │   ├── utils.ts
-│   │   ├── database/
-│   │   └── repository/
-│   │       ├── SQLiteRepository.ts
-│   │       ├── WebMockRepository.ts
-│   │       ├── types.ts
-│   │       ├── money.ts
-│   │       └── index.ts
-│   │
-│   ├── plugins/
-│   │   ├── backup-manager/
-│   │   └── notification-listener/
-│   │
-│   ├── routes/
-│   │   ├── index.tsx
-│   │   ├── landing.tsx
-│   │   ├── home.tsx
-│   │   ├── budget.tsx
-│   │   ├── history.tsx
-│   │   ├── insights.tsx
-│   │   └── settings.tsx
-│   │
-│   ├── capacitor-main.tsx
-│   ├── main.tsx
-│   ├── router.tsx
-│   └── styles.css
-│
+│   │   ├── database/        # SQLite access layer
+│   │   └── repository/      # Data repositories
+│   ├── plugins/             # Capacitor plugin bridges
+│   └── routes/               # TanStack Router routes
+├── public/
+├── resources/                # App icons and static assets
 ├── capacitor.config.ts
-├── capacitor.vite.config.ts
 ├── package.json
-├── tsconfig.json
-├── vite.config.ts
-├── eslint.config.js
-├── index.html
-└── FLOW.apk
+└── ...
 ```
-
-The exact structure can change as development continues.
 
 ---
 
-## Android Notification Flow
-
-The Android-specific flow is conceptually:
-
-```
-Android Notification
-        |
-        v
-Notification Listener
-        |
-        v
-Transaction Parsing
-        |
-        v
-Native Pending Queue
-        |
-        v
-NotificationBridge
-        |
-        v
-React Store
-        |
-        v
-TransactionOverlay
-```
-
-After a transaction has been processed or dismissed, the application acknowledges it through the native bridge so it is not repeatedly presented as pending.
-
----
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Requirements
 
 - Node.js
-- npm or Bun
 - Android Studio
 - Android SDK
 - JDK compatible with the project's Gradle configuration
-- Capacitor CLI
+- An Android device or emulator for native testing
 
-For Android testing:
-
-- Android device or emulator
-- USB debugging enabled when deploying directly to a physical device
-
-### Install Dependencies
-
-From the project root:
+### Installation
 
 ```bash
-git clone https://github.com/emiljinx-core/flow-expense-tracker.git
-cd flow-expense-tracker
 npm install
 ```
 
-If the project is managed with Bun, Bun commands can be used instead.
-
-### Running the Web Version
-
-Start the development server:
+### Run Web Version
 
 ```bash
 npm run dev
 ```
 
-Vite will provide a local development URL.
-
-### Production Web Build
-
-Create a production build with:
+### Build Web Version
 
 ```bash
 npm run build
 ```
-
-The generated files are placed in `dist/`.
 
 ---
 
 ## Building the Android APK
 
-**1. Build the web application**
-
 ```bash
 npm run build
-```
-
-**2. Sync with Android**
-
-```bash
 npx cap sync android
-```
-
-If using Bun:
-
-```bash
-bun run cap sync android
-```
-
-**3. Build the debug APK**
-
-From the `android` directory:
-
-```bash
+cd android
 .\gradlew.bat assembleDebug
 ```
 
-The APK will be generated at:
-
-```
-android/app/build/outputs/apk/debug/app-debug.apk
-```
-
-### Create a Convenient Copy
-
-From the project root:
-
-```powershell
-Copy-Item "android\app\build\outputs\apk\debug\app-debug.apk" ".\FLOW.apk"
-```
-
-This creates `FLOW.apk` in the project root.
-
-Alternatively, grab a pre-built APK directly from the [Releases page](https://github.com/emiljinx-core/flow-expense-tracker/releases) — no build required.
+The resulting debug APK is generated under `android/app/build/outputs/apk/debug/`.
 
 ---
 
 ## Installing the APK
 
-The APK can be transferred to another Android phone using USB, cloud storage, or a messaging/file-transfer application.
-
-Android may require permission to install applications from the source used to open the APK.
-
-After installation, open FLOW and configure the required Android notification access if automatic transaction detection is being used.
+1. Enable **Install from Unknown Sources** on your Android device (or allow it for your file manager/browser when prompted).
+2. Transfer the generated `.apk` file to your device.
+3. Open the file and follow the installation prompt.
 
 ---
 
-## Testing
+## Testing / Current Validation
 
-The current development build has been tested through the following workflow:
+FLOW has been validated through:
 
-1. Production web build completed successfully.
-2. Capacitor Android synchronization completed successfully.
-3. Android debug APK built successfully with Gradle.
-4. The resulting APK was installed on a second Android device.
-5. Core application functionality was tested on that device.
-6. The application was confirmed to work on the second device.
+- Production web build verification
+- Capacitor synchronization checks
+- Android Gradle build
+- APK installation and manual testing on a second Android device
+- Manual verification of core functionality (expenses, credits, budgets, notification detection, backup/restore)
 
-The Android Gradle build completed with:
-
-```
-BUILD SUCCESSFUL
-```
+There is currently no automated unit or integration test suite.
 
 ---
 
-## ⚠️ Known Limitations
+## Known Limitations
 
-**Notification Parsing**
-Transaction detection depends on the structure and content of notifications generated by payment and banking applications. Different applications can use different notification formats, so detection and parsing may not be identical across every provider.
-
-**Android Permissions**
-Automatic transaction detection requires the appropriate Android notification access. If access is disabled, automatic detection will not work.
-
-**Device-Specific Background Behavior**
-Android manufacturers can apply battery optimization and background restrictions that affect notification listener behavior.
-
-**Web Environment**
-The browser version cannot reproduce all native Android notification functionality.
+- Notification formats differ between banks and payment providers, so parsing accuracy varies.
+- Automatic detection depends on the device's notification access permission being granted.
+- Manufacturer-specific background restrictions (e.g. aggressive battery optimization) may affect notification listening reliability.
+- The web version cannot reproduce Android's notification listener functionality.
+- Current notification parsing is rule-based, not AI/ML-based.
+- Not every transaction notification is guaranteed to parse correctly.
 
 ---
 
-## 🔮 Future Improvements
+## Roadmap
 
-- Support for additional banking and payment notification formats
-- More robust transaction parsing
-- Improved transaction categorization
-- More advanced duplicate detection
-- More detailed spending analytics
-- Additional backup/export formats
-- Automated backup workflows
-- Improved onboarding
-- Better Android permission guidance
-- Signed production APK releases
-- Automated unit and integration tests
+**Current**
+- [x] Manual expense tracking
+- [x] Credit tracking
+- [x] Budget tracking
+- [x] Spending insights
+- [x] Notification-based transaction detection
+- [x] Transaction confirmation
+- [x] Local SQLite persistence
+- [x] Backup and restore
 
-These are potential future improvements and are not necessarily part of the current release.
+**Future**
+- [ ] Support more notification formats
+- [ ] Improve transaction categorization
+- [ ] More advanced duplicate detection
+- [ ] On-device intelligent transaction understanding
+- [ ] Play Store release
+- [ ] Automated tests
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
-A typical development workflow is:
+Contributions are welcome!
 
-1. Fork the [repository](https://github.com/emiljinx-core/flow-expense-tracker)
+1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Run the application
-5. Run the production build
-6. Test Android functionality when relevant
-7. Commit the changes
-8. Open a pull request
+4. Test the project
+5. Build the Android app when relevant
+6. Commit your changes
+7. Open a pull request
 
-Before submitting changes, ensure that the project still builds successfully. Bug reports and feature ideas are welcome via [Issues](https://github.com/emiljinx-core/flow-expense-tracker/issues).
+### Issues
+If you run into a bug, please open an issue with:
 
----
-
-## 📄 License
-
-This project does not currently have a license file. Without one, default copyright applies and no permissions are granted to reuse, modify, or redistribute this code beyond viewing it on GitHub.
-
-A license (e.g. MIT, Apache-2.0, GPLv3) will be added in a future update.
+- A clear description of the problem
+- Screenshots, if applicable
+- Relevant logs
+- Steps to reproduce
 
 ---
 
-## ⭐ Star History
+## License
 
-[![Star History Chart](https://api.star-history.com/svg?repos=emiljinx-core/flow-expense-tracker&type=Date)](https://star-history.com/#emiljinx-core/flow-expense-tracker&Date)
+FLOW is licensed under the [MIT License](LICENSE).
 
 ---
 
-## 🚦 Project Status
+## Project Status
 
-> Functional Android prototype — actively evolving, not yet a stable release.
-
-Current functionality includes:
-
-- Local expense tracking
-- Credit tracking
-- Account and cash balances
-- Budget tracking
-- Spending insights
-- Expense history
-- Categories
-- Backup and restore
-- Android notification-based transaction detection
-- Transaction confirmation
-- Local SQLite persistence
-- Complete data reset
-- Android APK generation
-
-The current APK has been successfully built and tested on a second Android device.
+FLOW is currently an actively developed Android project/prototype. Core expense tracking, local persistence, budgeting, insights, backup/restore, and notification-based transaction detection are implemented. AI-assisted transaction understanding and a Play Store release are planned but not yet available.
