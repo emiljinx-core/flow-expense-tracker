@@ -28,7 +28,7 @@ FLOW is a simple, local-first expense tracker that automatically detects transac
 </div>
 </br></br>
 
-## Screenshots
+## SNAPSHOTS
 <div style="display:flex;" >
 <p align="center">
   <img src="resources/screenshots/flowhero.png" alt="Flow IN-APP Images" width="100%">
