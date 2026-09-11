@@ -30,12 +30,9 @@ FLOW is a simple, local-first expense tracker that automatically detects transac
 
 ## Screenshots
 <div style="display:flex;" >
-<img  src="screenshots/1.png" width="19%" >
-<img style="margin-left:10px;" src="screenshots/2.png" width="19%" >
-<img style="margin-left:10px;" src="screenshots/3.png" width="19%" >
-<img style="margin-left:10px;" src="screenshots/4.png" width="19%" >
-<img style="margin-left:10px;" src="screenshots/5.png" width="19%" >
-
+<p align="center">
+  <img src="resources/screenshots/hero.png" alt="Seenema: the seen list, search results, a film page, and a director's filmography" width="100%">
+</p>
 </div>
 
 #### Contributing
