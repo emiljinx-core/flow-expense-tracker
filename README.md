@@ -35,209 +35,219 @@ FLOW is a simple, local-first expense tracker that automatically detects transac
 </p>
 </div>
 
-#### Contributing
-## This project is no longer maintained
+## TABLE OF CONTENTS
 
-###### Code 
-If you are a developer and you wish to contribute to the app please fork the project
-and submit a pull request on the [dev branch](https://gitlab.com/HoraApps/LeafPic/tree/dev).
+- [Overview](#overview)
+- [Why FLOW](#why-flow)
+- [Features](#features)
+- [How FLOW Works](#how-flow-works)
+- [Architecture](#architecture)
+- [Installation](#installation)
+- [Permissions](#permissions)
+- [Privacy](#privacy)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [Bug Reports](#bug-reports-and-feature-requests)
+- [Support](#support)
+- [License](#license)
 
-###### Issues
-You can trace the status of known issues [here](https://gitlab.com/HoraApps/LeafPic/issues),
-also feel free to file a new issue (helpful description, screenshots and logcat are appreciated), or send me an [email](mailto:dnld.sht@gmail.com) if you have any questions.
+## OVERVIEW
 
-###### Translations
-If you are able to contribute with a new translation of a missing language or if you want to improve an existing one, we greatly appreciate any suggestion!
-The project uses [Crowdin](https://crowdin.com/project/leafpic), a platform that allows anybody to contribute to translating the app
+FLOW is a simple, local-first expense tracker that automatically detects transaction notifications and brings them up on the screen for review. Users can edit transactions and organize them into expense records with categories, notes, and additional context.
 
-#### Licensing
-LeafPic is licensed under the [GNU v3 Public License](https://gitlab.com/HoraApps/LeafPic/blob/dev/LICENSE).
-In addition to the terms set by the GNU v3 Public License, we ask that if you use any code from this repository that you send us a message to let us know.
+## WHY FLOW
 
+Manual expense entry is a repetitive and easily forgotten chore. However, the transaction notifications your phone already receives contain highly useful information like the amount and the payee. 
 
+FLOW brings these supported transactions directly into a frictionless review workflow. Instead of typing out every detail, you are simply presented with the detected information. You can then edit, organize, and add necessary context to the transaction before finally saving it as a clean expense record.
 
+## FEATURES
 
+<table>
+  <tr>
+    <td>🔔 <b>Transaction notification detection</b><br>Parses incoming payment notifications securely on-device.</td>
+    <td>📝 <b>Transaction review</b><br>Presents detected transactions in an intuitive interface for your approval.</td>
+  </tr>
+  <tr>
+    <td>✏️ <b>Transaction editing</b><br>Modify amounts, payees, or dates before committing to the ledger.</td>
+    <td>🏷️ <b>Expense categorization</b><br>Sort expenses into customizable categories for better tracking.</td>
+  </tr>
+  <tr>
+    <td>📓 <b>Notes and additional context</b><br>Add specific details to transactions to remember exactly why you spent the money.</td>
+    <td>📴 <b>Local-first expense tracking</b><br>All your financial data remains completely on your device.</td>
+  </tr>
+  <tr>
+    <td>📊 <b>Expense records</b><br>View all your finalized transactions in a unified historical timeline.</td>
+    <td></td>
+  </tr>
+</table>
 
+## HOW FLOW WORKS
 
+```mermaid
+flowchart TD
+    A[Transaction Notification] --> B[FLOW detects notification]
+    B --> C[Transaction information is extracted]
+    C --> D[User reviews transaction]
+    D --> E[User edits details if required]
+    E --> F[User adds category or notes]
+    F --> G[Transaction is saved]
+    G --> H[Expense record is displayed]
+```
 
+## ARCHITECTURE
 
+```mermaid
+flowchart TD
+    subgraph Android OS
+        N[Notification Handling]
+        O[Overlay Service]
+    end
 
-<div style="display:flex; align-items:center;">
-<img src="resources/icon.png" align="left" width="100" hspace="15" vspace="10">
+    subgraph FLOW App
+        subgraph Native Layer
+            C[Capacitor Bridge]
+            W[Background Backup Worker]
+        end
+        subgraph Web Layer
+            UI[React User Interface]
+            S[Local SQLite Storage]
+        end
+    end
 
-# FLOW
+    N --> C
+    C --> UI
+    C --> O
+    UI <--> S
+    W <--> S
+```
 
-A transaction tells you where your money went. FLOW helps you remember why.
+## INSTALLATION
 
-</div>
-<br/>
+1. **[Download from GitHub](https://github.com/emiljinx-core/flow-expense-tracker/releases/latest/download/FLOW-v1.0.0.apk)**
+2. **[Download from Telegram](https://t.me/flow_app_official)**
+3. Open the downloaded `.apk` file.
+4. Allow installation from unknown sources if your Android device requests it.
+5. Install FLOW.
+6. Open FLOW.
+7. Grant the required permissions when prompted.
 
-[![Download FLOW APK](https://img.shields.io/badge/Download-FLOW%20APK-success?style=for-the-badge&logo=android)](https://github.com/emiljinx-core/flow-expense-tracker/blob/master/FLOW.apk)
+## PERMISSIONS
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Android-3DDC84?logo=android&logoColor=white)](#)
-[![Status](https://img.shields.io/badge/status-active%20development-blue)](#project-status)
-[![GitHub](https://img.shields.io/badge/GitHub-repo-181717?logo=github)](https://github.com/emiljinx-core/flow-expense-tracker)
-
----
-
-## Why FLOW?
-
-Most banking and payment apps are good at telling you *how much* moved and *where* — something like:
-
-> ₹500 — ABC Store
-
-That's fine in the moment. But weeks later, that line tells you almost nothing. Was it groceries? A gift? A one-off? The amount and merchant survive; the reason doesn't.
-
-FLOW was built to fix that gap — to turn a bare transaction into an expense record that still means something later. Everything else in the app grew out of that one idea: detecting transactions automatically so you don't have to re-enter them, letting you review and add context before they're saved, and organizing that context into categories, budgets, and insights.
-
----
-
-## Screenshots
-
-<div style="display:flex;">
-<img src="docs/screenshots/home.png" width="19%">
-<img style="margin-left:10px;" src="docs/screenshots/add-expense.png" width="19%">
-<img style="margin-left:10px;" src="docs/screenshots/detection.png" width="19%">
-<img style="margin-left:10px;" src="docs/screenshots/budget.png" width="19%">
-<img style="margin-left:10px;" src="docs/screenshots/insights.png" width="19%">
-</div>
-
----
-
-## What FLOW Does
-
-FLOW combines manual expense entry with automatic notification-based detection. When a payment notification comes in, FLOW parses it and hands it to you for review — you confirm it, add a category and description, and it becomes a real expense record. From there, budgets and spending insights are built on top of that history.
-
-## Key Features
-
-| Feature | Description |
+| Permission | Purpose |
 |---|---|
-| Automatic transaction detection | Parses relevant payment/banking notifications on-device |
-| Review before saving | Nothing is added to your ledger without confirmation |
-| Expense tracking | Manual and detected expenses |
-| Credit tracking | Incoming money — salary, transfers, refunds |
-| Categories & descriptions | Add the context a raw transaction is missing |
-| Budget tracking | Monthly budgets with carry-forward |
-| Spending insights | Top categories, month-over-month trends |
-| Duplicate detection | Avoids logging the same transaction twice |
-| Local SQLite storage | All data lives on your device |
-| Backup & restore | Local, user-controlled JSON export/import |
+| `BIND_NOTIFICATION_LISTENER_SERVICE` | Required to read incoming banking and payment notifications to detect transactions automatically. |
+| `SYSTEM_ALERT_WINDOW` | Required to display the transaction review overlay directly on your screen when a transaction happens while you are using other apps. |
+| `POST_NOTIFICATIONS` | Required to send you fallback notifications when the overlay cannot be displayed. |
+| `INTERNET` | Required by Capacitor for internal web-view routing and rendering, though no data is transmitted externally. |
 
----
+## PRIVACY
 
-## How It Works
+FLOW takes a strict local-first approach to your data. All parsed expense records, budgets, and categories are saved directly to a local SQLite database residing securely on your device.
 
-```
-Bank / Payment Notification
-        ↓
-Android Notification Listener
-        ↓
-Transaction Detection
-        ↓
-User Review
-        ↓
-Add Context / Category / Description
-        ↓
-Save to Local Ledger
-        ↓
-History / Budget / Insights
-```
+Because FLOW must read your notifications to automate transaction tracking, you must grant it Notification Access. Please note that granting this permission allows the app's native service to read the contents of your notifications locally to extract transaction data.
 
-Detected transactions aren't added blindly — they wait for review, where you can confirm, edit, or dismiss them before anything is saved.
+## TECH STACK
 
----
+| Technology | Purpose |
+|---|---|
+| **React** | Web application user interface |
+| **TypeScript** | Strongly typed frontend logic |
+| **Vite** | Frontend build tooling |
+| **Tailwind CSS** | Styling and responsive design |
+| **Capacitor** | Bridge between the web application and native Android capabilities |
+| **Android (Kotlin)** | Native notification listening, background workers, and overlay services |
+| **SQLite** | Local database for storing all transaction and budget records |
+| **Capacitor Preferences** | Lightweight storage for user settings and configurations |
 
-## Privacy
+## PROJECT STRUCTURE
 
-FLOW is local-first. Expense data is stored on-device using SQLite, and there's no server-side database. Notification access is required for automatic detection, and granting it can expose notification content to the app — only enable it if you're comfortable with that trade-off.
-
----
-
-## Tech Stack
-
-**Frontend:** React, TypeScript, Vite, Tailwind CSS
-**Mobile:** Capacitor, Android, Kotlin
-**Storage:** SQLite, Capacitor Preferences
-
----
-
-## Project Structure
-
-```
-flow/
+```text
+flow-expense-tracker/
 ├── android/
-│   └── app/
-│       └── src/main/java/com/nothing/expensetracker/
-│           ├── ExpenseNotificationService.kt
-│           ├── TransactionParser.kt
-│           ├── NotificationBridgePlugin.kt
-│           └── TransactionOverlayService.kt
-│
+│   └── app/src/main/java/com/nothing/expensetracker/
+│       ├── ExpenseNotificationService.kt
+│       ├── TransactionOverlayService.kt
+│       ├── TransactionParser.kt
+│       ├── NotificationBridgePlugin.kt
+│       └── backup/BackupWorker.kt
 ├── src/
 │   ├── components/
 │   ├── hooks/
 │   ├── lib/
-│   │   ├── database/
-│   │   └── repository/
 │   ├── plugins/
 │   └── routes/
-│
-├── resources/
 ├── capacitor.config.ts
 ├── package.json
 └── vite.config.ts
 ```
 
----
+## ROADMAP
 
-## Getting Started
+- [x] Automatic transaction detection
+- [x] Unify Expense and Credit records
+- [x] Dynamic monitored app selection
+- [x] Background JSON backups
+- [ ] Comprehensive budgeting features
+- [ ] Enhanced spending insights
 
-```bash
-npm install
-npm run dev
-```
+## CONTRIBUTING
 
-Bun works too, if you'd rather use it (`bun.lock` is included):
+If you want to contribute, fork the repository and work on your own copy! Here is how to get started:
 
-```bash
-bun install
-bun run dev
-```
+1. **Fork the repository** on GitHub.
+2. **Clone the project** locally:
+   ```bash
+   git clone https://github.com/YOUR-USERNAME/flow-expense-tracker.git
+   cd flow-expense-tracker
+   ```
+3. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+4. **Create a branch** for your feature or bug fix:
+   ```bash
+   git checkout -b feature-name
+   ```
+5. **Run the local development server:**
+   ```bash
+   npm run dev
+   ```
+6. **Build for Android:**
+   If you make changes to the native Kotlin code or want to test the full mobile experience:
+   ```bash
+   npm run build
+   npx cap sync android
+   cd android
+   .\gradlew.bat assembleDebug
+   ```
+7. **Test your changes** locally on an Android device or emulator to ensure nothing breaks.
+8. **Commit your changes and push** to your fork.
+9. **Open a pull request** back to this main repository.
 
-## Building the Android APK
+## BUG REPORTS AND FEATURE REQUESTS
 
-```bash
-npm run build
-npx cap sync android
-cd android
-.\gradlew.bat assembleDebug
-```
+When submitting a bug report, please include the following information to help us resolve the issue quickly:
 
-APK output: `android/app/build/outputs/apk/debug/app-debug.apk`
+- **Android version:** (e.g., Android 13, Android 14)
+- **FLOW version:** (e.g., v1.0.0)
+- **Steps to reproduce:** Exactly what you clicked or did before the issue occurred.
+- **Expected result:** What you thought would happen.
+- **Actual result:** What actually happened.
+- **Screenshots:** When useful, include screenshots or screen recordings.
 
----
+## SUPPORT
 
-## Download
+- Telegram: [https://t.me/flow_app_official](https://t.me/flow_app_official)
+- GitHub Sponsors: [https://github.com/sponsors/emiljinx-core](https://github.com/sponsors/emiljinx-core)
+- GitHub repository: [https://github.com/emiljinx-core/flow-expense-tracker](https://github.com/emiljinx-core/flow-expense-tracker)
 
-**[⬇ Download FLOW APK](https://github.com/emiljinx-core/flow-expense-tracker/blob/master/FLOW.apk)**
+[![Sponsor](https://github.com/sponsors/emiljinx-core)](https://github.com/sponsors/emiljinx-core)
 
-FLOW isn't on the Play Store — grab the latest APK directly from this repository (Releases coming soon).
+## LICENSE
 
----
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test the application
-5. Submit a pull request
-
-## License
-
-FLOW is licensed under the [MIT License](LICENSE).
-
-## Project Status
-
-FLOW is an actively developed Android project/prototype. Core tracking, detection, budgets, and insights are implemented; expect rough edges.
+FLOW is licensed under the GNU General Public License v3.0.  
+See the [LICENSE](LICENSE) file for more information.
+implemented; expect rough edges.
