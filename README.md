@@ -1,5 +1,8 @@
-[![Crowdin](https://d322cqt584bo4o.cloudfront.net/leafpic/localized.svg)](https://crowdin.com/project/leafpic)
-[![Donate](https://img.shields.io/badge/donate-paypal-blue.svg)](https://www.paypal.me/HoraApps)
+[![Latest release](https://img.shields.io/github/v/release/emiljinx-core/flow-expense-tracker?style=for-the-badge&labelColor=0d1117)](https://github.com/emiljinx-core/flow-expense-tracker/releases)
+[![License](https://img.shields.io/github/license/emiljinx-core/flow-expense-tracker?style=for-the-badge&labelColor=0d1117)](https://github.com/emiljinx-core/flow-expense-tracker/blob/main/LICENSE)
+![Android 10+](https://img.shields.io/badge/Android-10%2B-green?style=for-the-badge&labelColor=0d1117)
+[![Downloads](https://img.shields.io/github/downloads/emiljinx-core/flow-expense-tracker/total?style=for-the-badge&labelColor=0d1117)](https://github.com/emiljinx-core/flow-expense-tracker/releases)
+[![Sponsor](https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-ea4aaa?style=for-the-badge&labelColor=0d1117)](https://github.com/sponsors/emiljinx-core)
  
 
 # FLOW: Expense Tracker
