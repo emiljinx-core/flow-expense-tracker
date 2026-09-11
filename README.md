@@ -5,7 +5,7 @@
 
 
 # FLOW: Expense Tracker
-<img src="resources/icon.png" align="left" width="200" hspace="10" vspace="10">
+<img src="resources/FLOW.png" align="left" width="200" hspace="10" vspace="10">
 FLOW is a simple, local-first expense tracker that automatically detects transaction notifications and brings them up on your screen for review. You can edit the transaction and organize it into your expense records with categories, notes, and additional context, making it easier to understand where your money goes.<br/>
 
 <div style="display:flex;" >
