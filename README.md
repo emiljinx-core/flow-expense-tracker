@@ -8,16 +8,23 @@
 <img src="resources/FLOW.png" align="left" width="200" hspace="10" vspace="10">
 FLOW is a simple, local-first expense tracker that automatically detects transaction notifications and brings them up on your screen for review. You can edit the transaction and organize it into your expense records with categories, notes, and additional context, making it easier to understand where your money goes.<br/>
 
+<br>
+
 <div style="display:flex;" >
-<a href="https://f-droid.org/app/org.horaapps.leafpic">
-    <img src="https://f-droid.org/badge/get-it-on.png"
-         alt="Get it on F-Droid" height="80">
-</a>
-<a href="https://play.google.com/store/apps/details?id=org.horaapps.leafpic">
-    <img alt="Get it on Google Play"
-        height="80"
-        src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />
-</a>
+ <a href="https://github.com/emiljinx-core/flow-expense-tracker/releases/latest/download/FLOW-v1.0.0.apk">
+        <img
+          src="resources/badges/github-flow.svg"
+          alt="Get Flow on GitHub"
+          height="100"
+        >
+      </a>
+<a href="https://t.me/flow_app_official">
+        <img
+          src="resources/badges/telegram-flow.svg"
+          alt="Get Flow on Telegram"
+          height="100"
+        >
+      </a>
 </div>
 </br></br>
 
